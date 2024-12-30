@@ -20,7 +20,7 @@ const App = () => {
   }, [tasks])
 
   const handleSave = () => {
-    if(task.trim() === "") return setTask("")
+    if (task.trim() === "") return setTask("")
     setTasks([...tasks, { id: uuidv4(), text: task, isCompleted: false }])
     setTask("")
   };
@@ -39,7 +39,7 @@ const App = () => {
   const handleCheckbox = (id) => {
     let newTaskList = tasks.map(task => {
       if (task.id === id) {
-        return {...task, isCompleted: !task.isCompleted}
+        return { ...task, isCompleted: !task.isCompleted }
       }
       return task
     })
@@ -61,7 +61,8 @@ const App = () => {
       <header className="mt-6 text-3xl font-bold">Your Tasks</header>
 
       {/* Input Section */}
-      <div className="mt-4 flex items-center space-x-3">
+      <div className="mt-4 flex items-center space-x-3 flex-col sm:flex-row space-y-3">
+        <div className="flex items-center space-x-3">
         <input
           type="text"
           placeholder="Add a new task..."
@@ -72,62 +73,66 @@ const App = () => {
             if (e.key === "Enter") handleSave();
           }}
         />
-        <button
-          className="px-4 py-2 bg-sky-500 rounded hover:bg-sky-600"
-          onClick={handleSave}
-        >
-          Save
-        </button>
 
+        
+          <button
+            className="px-4 py-2 bg-sky-500 rounded hover:bg-sky-600"
+            onClick={handleSave}
+          >
+            Save
+          </button>
+          </div>
+          <div className="flex items-center space-x-3">
           {/* REVERSE BUTTON */}
-        <span className={`text-xl hover:text-gray-300 cursor-pointer ${reverse ? "text-sky-500" : "text-gray-600"}`}
-        onClick={()=>{setReverse(!reverse)}}><BiSort /></span>
+          <span className={`text-xl hover:text-gray-300 cursor-pointer ${reverse ? "text-sky-500" : "text-gray-600"}`}
+            onClick={() => { setReverse(!reverse) }}><BiSort /></span>
 
           {/* SHOW FINISHED BUTTON */}
-        <span className={`relative text-xl hover:text-gray-300 cursor-pointer ${finished ? "text-sky-500" : "text-gray-600"}`}
-        onClick={handleFinished}
-        onMouseEnter={() => setTimeout(() => setShowInfo(true), 300)}
-        onMouseLeave={() => setShowInfo(false)}>
-          {showInfo && (
-          <div className="absolute w-[137px] transition-all bottom-8 left-1/2 transform -translate-x-1/2 p-2 bg-gray-700 text-sm text-white rounded shadow-lg">
-            Show finished tasks
-          </div>
-        )}
-          <SiTicktick /></span>
+          <span className={`relative text-xl hover:text-gray-300 cursor-pointer ${finished ? "text-sky-500" : "text-gray-600"}`}
+            onClick={handleFinished}
+            onMouseEnter={() => setTimeout(() => setShowInfo(true), 300)}
+            onMouseLeave={() => setShowInfo(false)}>
+            {showInfo && (
+              <div className="absolute w-[137px] transition-all bottom-8 left-1/2 transform -translate-x-1/2 p-2 bg-gray-700 text-sm text-white rounded shadow-lg">
+                Show finished tasks
+              </div>
+            )}
+            <SiTicktick /></span>
+        </div>
       </div>
 
       {/* To-Do List */}
       <ul className={`mt-6 w-11/12 max-w-lg flex ${reverse ? "flex-col-reverse" : "flex-col"}`}>
         {tasks.map((task) => {
           return ((!task.isCompleted || finished) && (<li key={task.id} className="flex items-center justify-between bg-gray-800 p-4 mb-2 rounded">
-              <div className="flex items-center">
+            <div className="flex items-center">
 
-                {/* CHECKBOX */}
-                <input
-                  type="checkbox"
-                  className="mr-2 w-4 h-4 text-sky-500 focus:ring-sky-500"
-                  onChange={()=>{handleCheckbox(task.id)}}
-                  checked={task.isCompleted}
-                />
+              {/* CHECKBOX */}
+              <input
+                type="checkbox"
+                className="mr-2 w-4 h-4 text-sky-500 focus:ring-sky-500"
+                onChange={() => { handleCheckbox(task.id) }}
+                checked={task.isCompleted}
+              />
 
-                <span className={task.isCompleted ? "line-through text-gray-400" : ""}>{task.text}</span>
-              </div>
-              <div className="flex space-x-2">
+              <span className={task.isCompleted ? "line-through text-gray-400" : ""}>{task.text}</span>
+            </div>
+            <div className="flex space-x-2">
 
-                {/* EDIT BUTTON */}
-                <button className="px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-600"
-                onClick={()=>{handleEdit(task.id)}}>
-                  <FaEdit />
-                </button>
+              {/* EDIT BUTTON */}
+              <button className="px-3 py-1 bg-sky-500 text-white rounded hover:bg-sky-600"
+                onClick={() => { handleEdit(task.id) }}>
+                <FaEdit />
+              </button>
 
-                {/* DELETE BUTTON */}
-                <button className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                onClick={()=>{handleDelete(task.id)}}>
-                  <MdOutlineDeleteForever />
-                </button>
+              {/* DELETE BUTTON */}
+              <button className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                onClick={() => { handleDelete(task.id) }}>
+                <MdOutlineDeleteForever />
+              </button>
 
-              </div>
-            </li>)
+            </div>
+          </li>)
           )
         })}
       </ul>
