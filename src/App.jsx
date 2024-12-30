@@ -54,7 +54,7 @@ const App = () => {
     <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center">
       {/* Navbar */}
       <nav className="w-full bg-gray-800 p-4 text-center text-xl font-semibold">
-        Minimal To-Do App
+        Minimal To-Do App <span className="text-sm font-normal text-gray-300">- by ZeoXD</span>
       </nav>
 
       {/* Heading */}
